@@ -3,12 +3,15 @@ export function main
   |> document.getElementById
   |> initGL
 
-  gl.clearColor 0 0 0 1
-  gl.enable gl.DEPTH_TEST
-  gl.depthFunc gl.LEQUAL
-  gl.clear gl.COLOR_BUFFER_BIT .|. gl.DEPTH_BUFFER_BIT
+  let @ = gl
+    @clearColor 0 0 0 1
+    @enable @DEPTH_TEST
+    @depthFunc @LEQUAL
+    @clear @COLOR_BUFFER_BIT .|. @DEPTH_BUFFER_BIT
 
 function initGL canvas
   try
-    gl = canvas.getContext(\webgl) || canvas.getContext(\experimental-webgl)
-  gl ? null
+    canvas.getContext(\webgl) ||
+    canvas.getContext(\experimental-webgl)
+  catch
+    null
