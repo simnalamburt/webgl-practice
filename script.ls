@@ -50,6 +50,18 @@ export function main
     @useProgram program
 
 
+    ### Create a vertex buffer
+    vertices =
+      +1.0  +1.0  0.0
+      -1.0  +1.0  0.0
+      +1.0  -1.0  0.0
+      -1.0  -1.0  0.0
+
+    vb = @createBuffer!
+    @bindBuffer @ARRAY_BUFFER, vb
+    @bufferData @ARRAY_BUFFER, new Float32Array(vertices), @STATIC_DRAW
+
+
     ### Clear screen
     @clearColor 0 0 0 1
     @enable @DEPTH_TEST
