@@ -6,7 +6,7 @@ export function main
       canvas.getContext(\webgl) ||
       canvas.getContext(\experimental-webgl)
     catch
-      null
+      ...
 
   let @ = gl
 
@@ -14,7 +14,8 @@ export function main
     makeShader = (shader, code) ~>
       @shaderSource shader, code
       @compileShader shader
-      return null unless @getShaderParameter shader, @COMPILE_STATUS
+      unless @getShaderParameter shader, @COMPILE_STATUS
+        ...
       shader
 
     vs = makeShader (@createShader @VERTEX_SHADER), do
@@ -43,7 +44,8 @@ export function main
     @linkProgram program
 
     # If creating the shader program failed, abort
-    return unless @getProgramParameter program, @LINK_STATUS
+    unless @getProgramParameter program, @LINK_STATUS
+      ...
 
     @useProgram program
 
