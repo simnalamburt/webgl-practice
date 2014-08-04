@@ -8,6 +8,13 @@ gl = \screen
     ...
 <- (.call gl)
 
+### Clear the buffer
+@clearColor 0.0 0.0 0.0 1.0
+@clearDepth 1.0
+@enable @DEPTH_TEST
+@depthFunc @LEQUAL
+
+
 ### Initialize the shaders
 makeShader = (shader, code) ~>
   @shaderSource shader, code
@@ -63,8 +70,19 @@ vb = @createBuffer!
 @bufferData @ARRAY_BUFFER, new Float32Array(vertices), @STATIC_DRAW
 
 
-### Clear screen
-@clearColor 0 0 0 1
-@enable @DEPTH_TEST
-@depthFunc @LEQUAL
+### Draw the scene periodically
+<~ (foo) -> setInterval foo, 15
+
+mvMatrix = Matrix.Translation($V [0 0 -6]).ensure4x4!
+mvUniform = @getUniformLocation program, \uMVMatrix
+@uniformMatrix4fv mvUniform, false, new Float32Array mvMatrix.flatten!
+
+pMatrix = makePerspective 45 1 0.1 100.0
+pUniform = @getUniformLocation program, \uPMatrix
+@uniformMatrix4fv pUniform, false, new Float32Array pMatrix.flatten!
+
+@vertexAttribPointer vertexPositionAttribute, 3, @FLOAT, false, 0, 0
+
 @clear @COLOR_BUFFER_BIT .|. @DEPTH_BUFFER_BIT
+@bindBuffer @ARRAY_BUFFER, vb
+@drawArrays @TRIANGLE_STRIP, 0 4
