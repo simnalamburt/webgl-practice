@@ -1,7 +1,7 @@
 all: index.html
-index.html: script.js
-script.js: script.ls
-	lsc -c $<
+index.html: script.ls.js
+script.ls.js: script.ls
+	lsc -p -c $< > $@
 
 clean:
-	rm -f script.js
+	rm -f script.ls.js
