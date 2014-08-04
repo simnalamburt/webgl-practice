@@ -24,3 +24,4 @@ My WebGL practice
 * make
 * [node.js](http://nodejs.org/)
 * [LiveScript](http://livescript.net/)
+* [UglifyJS2](https://github.com/mishoo/UglifyJS2)
