@@ -8,6 +8,13 @@ gl = \screen
     ...
 <- (.call gl)
 
+### Prepare the flags
+flag =
+  resized: yes
+
+window.addEventListener \resize -> flag.resized = yes
+
+
 ### Clear the buffer
 @clearColor 0.0 0.0 0.0 1.0
 @clearDepth 1.0
@@ -86,3 +93,12 @@ pUniform = @getUniformLocation program, \uPMatrix
 @clear @COLOR_BUFFER_BIT .|. @DEPTH_BUFFER_BIT
 @bindBuffer @ARRAY_BUFFER, vb
 @drawArrays @TRIANGLE_STRIP, 0 4
+
+
+### Post-draw works
+
+if flag.resized
+  let c = @canvas
+    c.width = c.clientWidth if c.width != c.clientWidth
+    c.height = c.clientHeight if c.height != c.clientHeight
+    @viewport 0, 0, c.width, c.height
