@@ -47,6 +47,9 @@ unless @getProgramParameter program, @LINK_STATUS
 
 @useProgram program
 
+vertexPositionAttribute = @getAttribLocation program, \aVertexPosition
+@enableVertexAttribArray vertexPositionAttribute
+
 
 ### Create a vertex buffer
 vertices =
