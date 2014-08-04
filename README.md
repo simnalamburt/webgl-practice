@@ -8,7 +8,7 @@ My WebGL practice
 1.  Clone the sources from git
 
     ```bash
-    git init https://github.com/simnalamburt/webgl-tutorial.git
+    git clone https://github.com/simnalamburt/webgl-tutorial.git
     cd webgl-tutorial
     ```
 
