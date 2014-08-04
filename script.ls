@@ -1,69 +1,67 @@
-export function main
-  gl = \screen
-  |> document.getElementById
-  |> (canvas) ->
-    try
-      canvas.getContext(\webgl) ||
-      canvas.getContext(\experimental-webgl)
-    catch
-      ...
+gl = \screen
+|> document.getElementById
+|> (canvas) ->
+  try
+    canvas.getContext(\webgl) ||
+    canvas.getContext(\experimental-webgl)
+  catch
+    ...
+<- (.call gl)
 
-  let @ = gl
+### Initialize the shaders
+makeShader = (shader, code) ~>
+  @shaderSource shader, code
+  @compileShader shader
+  unless @getShaderParameter shader, @COMPILE_STATUS
+    ...
+  shader
 
-    ### Initialized shaders
-    makeShader = (shader, code) ~>
-      @shaderSource shader, code
-      @compileShader shader
-      unless @getShaderParameter shader, @COMPILE_STATUS
-        ...
-      shader
+vs = makeShader (@createShader @VERTEX_SHADER), do
+  '''
+  attribute vec3 aVertexPosition;
 
-    vs = makeShader (@createShader @VERTEX_SHADER), do
-      '''
-      attribute vec3 aVertexPosition;
+  uniform mat4 uMVMatrix;
+  uniform mat4 uPMatrix;
 
-      uniform mat4 uMVMatrix;
-      uniform mat4 uPMatrix;
+  void main(void) {
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+  }
+  '''
 
-      void main(void) {
-        gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
-      }
-      '''
+fs = makeShader (@createShader @FRAGMENT_SHADER), do
+  '''
+  void main(void) {
+    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+  }
+  '''
 
-    fs = makeShader (@createShader @FRAGMENT_SHADER), do
-      '''
-      void main(void) {
-        gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
-      }
-      '''
+# Create the shader program
+program = @createProgram!
+@attachShader program, vs
+@attachShader program, fs
+@linkProgram program
 
-    # Create the shader program
-    program = @createProgram!
-    @attachShader program, vs
-    @attachShader program, fs
-    @linkProgram program
+# If creating the shader program failed, abort
+unless @getProgramParameter program, @LINK_STATUS
+  ...
 
-    # If creating the shader program failed, abort
-    unless @getProgramParameter program, @LINK_STATUS
-      ...
-
-    @useProgram program
+@useProgram program
 
 
-    ### Create a vertex buffer
-    vertices =
-      +1.0  +1.0  0.0
-      -1.0  +1.0  0.0
-      +1.0  -1.0  0.0
-      -1.0  -1.0  0.0
+### Create a vertex buffer
+vertices =
+  +1.0  +1.0  0.0
+  -1.0  +1.0  0.0
+  +1.0  -1.0  0.0
+  -1.0  -1.0  0.0
 
-    vb = @createBuffer!
-    @bindBuffer @ARRAY_BUFFER, vb
-    @bufferData @ARRAY_BUFFER, new Float32Array(vertices), @STATIC_DRAW
+vb = @createBuffer!
+@bindBuffer @ARRAY_BUFFER, vb
+@bufferData @ARRAY_BUFFER, new Float32Array(vertices), @STATIC_DRAW
 
 
-    ### Clear screen
-    @clearColor 0 0 0 1
-    @enable @DEPTH_TEST
-    @depthFunc @LEQUAL
-    @clear @COLOR_BUFFER_BIT .|. @DEPTH_BUFFER_BIT
+### Clear screen
+@clearColor 0 0 0 1
+@enable @DEPTH_TEST
+@depthFunc @LEQUAL
+@clear @COLOR_BUFFER_BIT .|. @DEPTH_BUFFER_BIT
