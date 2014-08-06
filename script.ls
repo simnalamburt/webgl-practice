@@ -88,10 +88,10 @@ pMatrix = makePerspective 45 1 0.1 100.0
 pUniform = @getUniformLocation program, \uPMatrix
 @uniformMatrix4fv pUniform, false, new Float32Array pMatrix.flatten!
 
+@bindBuffer @ARRAY_BUFFER, vb
 @vertexAttribPointer vertexPositionAttribute, 3, @FLOAT, false, 0, 0
 
 @clear @COLOR_BUFFER_BIT .|. @DEPTH_BUFFER_BIT
-@bindBuffer @ARRAY_BUFFER, vb
 @drawArrays @TRIANGLE_STRIP, 0 4
 
 
