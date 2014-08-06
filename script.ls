@@ -61,20 +61,28 @@ unless @getProgramParameter program, @LINK_STATUS
 
 @useProgram program
 
-vertexPositionAttribute = @getAttribLocation program, \aVertexPosition
-@enableVertexAttribArray vertexPositionAttribute
+
+### Create the attributes
+makeAttr = (name) ~>
+  attr = @getAttribLocation program, name
+  @enableVertexAttribArray attr
+  attr
+
+vertexPositionAttribute = makeAttr \aVertexPosition
 
 
-### Create a vertex buffer
-vertices =
-  +1.0  +1.0  0.0
-  -1.0  +1.0  0.0
-  +1.0  -1.0  0.0
-  -1.0  -1.0  0.0
+### Create the buffers
+makeBuffer = (data) ~>
+  ret = @createBuffer!
+  @bindBuffer @ARRAY_BUFFER, ret
+  @bufferData @ARRAY_BUFFER, new Float32Array(data), @STATIC_DRAW
+  ret
 
-vb = @createBuffer!
-@bindBuffer @ARRAY_BUFFER, vb
-@bufferData @ARRAY_BUFFER, new Float32Array(vertices), @STATIC_DRAW
+vb = makeBuffer do
+  * +1  +1  +0
+    -1  +1  +0
+    +1  -1  +0
+    -1  -1  +0
 
 
 ### Draw the scene periodically
