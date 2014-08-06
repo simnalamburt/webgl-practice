@@ -33,19 +33,25 @@ makeShader = (shader, code) ~>
 vs = makeShader (@createShader @VERTEX_SHADER), do
   '''
   attribute vec3 aVertexPosition;
+  attribute vec4 aVertexColor;
 
   uniform mat4 uMVMatrix;
   uniform mat4 uPMatrix;
 
+  varying lowp vec4 vColor;
+
   void main(void) {
     gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    vColor = aVertexColor;
   }
   '''
 
 fs = makeShader (@createShader @FRAGMENT_SHADER), do
   '''
+  varying lowp vec4 vColor;
+
   void main(void) {
-    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    gl_FragColor = vColor;
   }
   '''
 
@@ -69,6 +75,7 @@ makeAttr = (name) ~>
   attr
 
 vertexPositionAttribute = makeAttr \aVertexPosition
+vertexColorAttribute = makeAttr \aVertexColor
 
 
 ### Create the buffers
@@ -84,6 +91,12 @@ vb = makeBuffer do
     +1  -1  +0
     -1  -1  +0
 
+colorb = makeBuffer do
+  * 1 1 1 1
+    1 0 0 1
+    0 1 0 1
+    0 0 1 1
+
 
 ### Draw the scene periodically
 <~ (foo) -> setInterval foo, 15
@@ -98,6 +111,9 @@ pUniform = @getUniformLocation program, \uPMatrix
 
 @bindBuffer @ARRAY_BUFFER, vb
 @vertexAttribPointer vertexPositionAttribute, 3, @FLOAT, false, 0, 0
+
+@bindBuffer @ARRAY_BUFFER, colorb
+@vertexAttribPointer vertexColorAttribute, 4, @FLOAT, false, 0, 0
 
 @clear @COLOR_BUFFER_BIT .|. @DEPTH_BUFFER_BIT
 @drawArrays @TRIANGLE_STRIP, 0 4
