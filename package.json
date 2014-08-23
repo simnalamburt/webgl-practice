@@ -1,0 +1,19 @@
+{ "name": "webgl-tutorial"
+, "version": "0.1.0"
+, "description": "My WebGL practice"
+, "author": "Hyeon Kim"
+, "homepage": "https://simnalamburt.github.io/webgl-tutorial/"
+, "license": "BSD"
+, "main": "index.html"
+, "keywords":
+  [ "WebGL"
+  , "Tutorial"
+  ]
+, "repository":
+  { "type": "git"
+  , "url": "https://github.com/simnalamburt/webgl-tutorial.git"
+  }
+, "bugs":
+  { "url": "https://github.com/simnalamburt/webgl-tutorial/issues"
+  }
+}

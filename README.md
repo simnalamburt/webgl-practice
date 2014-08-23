@@ -12,6 +12,12 @@ My WebGL practice
     cd webgl-tutorial
     ```
 
+1.  Install dependencies
+
+    ```bash
+    npm install
+    ```
+
 1.  Build & Play
 
     ```bash
