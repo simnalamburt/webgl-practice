@@ -16,4 +16,7 @@
 , "bugs":
   { "url": "https://github.com/simnalamburt/webgl-tutorial/issues"
   }
+, "devDependencies":
+  { "gulp": "^3.8.7"
+  }
 }
