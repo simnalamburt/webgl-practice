@@ -21,5 +21,9 @@
   , "gulp-livescript": "^1.0.3"
   , "gulp-uglify": "^0.3.1"
   , "gulp-rimraf": "^0.1.0"
+  , "browserify": "^5.10.1"
+  }
+, "browser":
+  {
   }
 }
