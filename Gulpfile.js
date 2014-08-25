@@ -1,26 +1,31 @@
 'use strict';
 
 var gulp = require('gulp');
-var rename = require('gulp-rename');
 var live = require('gulp-livescript');
-var uglify = require('gulp-uglify');
+var min = require('gulp-uglify');
 var rm = require('gulp-rimraf');
 
-gulp.task('clean', function() {
-  return gulp.src('script.ls.js', { read: false })
-    .pipe(rm());
-});
-
-gulp.task('js', function() {
-  return gulp.src('script.ls')
+gulp.task('ls', function() {
+  return gulp.src('./src/**/*.ls')
     .pipe(live())
-    .pipe(uglify())
-    .pipe(rename({ extname: '.ls.js' }))
-    .pipe(gulp.dest('.'));
+    .pipe(min())
+    .pipe(gulp.dest('./build'));
 });
 
-gulp.task('build', ['js']);
+gulp.task('js', ['ls'], function() {
+  return gulp.src('./src/**/*.js')
+    .pipe(min())
+    .pipe(gulp.dest('./build'));
+});
 
-gulp.task('default', function() {
-  gulp.start('build');
+gulp.task('html', function() {
+  return gulp.src('./src/**/*.html')
+    .pipe(gulp.dest('./build'));
+});
+
+gulp.task('default', ['js', 'html']);
+
+gulp.task('clean', function() {
+  return gulp.src('./build', { read: false })
+    .pipe(rm());
 });

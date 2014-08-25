@@ -22,7 +22,7 @@ My WebGL practice
 
     ```bash
     gulp
-    open index.html
+    open build/index.html
     ```
 
 ### Requirements
