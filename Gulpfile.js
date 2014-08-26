@@ -2,11 +2,13 @@
 
 var gulp = require('gulp');
 var live = require('gulp-livescript');
+var stylus = require('gulp-stylus');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var streamify = require('gulp-streamify');
 var uglify = require('gulp-uglify');
 var mincss = require('gulp-minify-css');
+var mv = require('gulp-rename');
 var rm = require('gulp-rimraf');
 var sequence = require('run-sequence');
 
@@ -32,6 +34,12 @@ gulp.task('ls', function() {
     .pipe(gulp.dest('./build'));
 });
 
+gulp.task('stylus', function() {
+  return gulp.src('./build/**/*.styl')
+    .pipe(stylus())
+    .pipe(gulp.dest('./build'));
+});
+
 gulp.task('js', ['ls'], function() {
   var bundleStream = browserify('./build/main.js').bundle();
 
@@ -40,8 +48,9 @@ gulp.task('js', ['ls'], function() {
     .pipe(gulp.dest('./build'));
 });
 
-gulp.task('css', function() {
-  return gulp.src('./build/app.css')
+gulp.task('css', ['stylus'], function() {
+  return gulp.src('./build/main.css')
+    .pipe(mv({ basename: "app" }))
     .pipe(mincss())
     .pipe(gulp.dest('./build/'));
 });
