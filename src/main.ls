@@ -1,3 +1,12 @@
+sylvester = require('sylvester')
+;           require('sylvester-utils')
+
+Matrix = sylvester.Matrix
+$V = sylvester.Vector.create
+makePerspective = sylvester.makePerspective
+
+
+
 gl = \screen
 |> document.getElementById
 |> (canvas) ->
