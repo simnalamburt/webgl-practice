@@ -11,7 +11,7 @@ var sequence = require('run-sequence');
 
 gulp.task('default', function(cb) {
   sequence('copy',
-          ['html', 'js'],
+          ['html', 'js', 'css'],
           cb);
 });
 
@@ -37,6 +37,9 @@ gulp.task('js', ['ls'], function() {
   return bundleStream.pipe(source('app.js'))
     .pipe(streamify(uglify()))
     .pipe(gulp.dest('./build'));
+});
+
+gulp.task('css', function() {
 });
 
 gulp.task('clean', function() {
