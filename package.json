@@ -24,6 +24,7 @@
   , "browserify": "^5.10.1"
   }
 , "browser":
-  {
+  { "sylvester": "./src/lib/sylvester.js"
+  , "sylvester-utils": "./src/lib/sylvester-utils.js"
   }
 }
