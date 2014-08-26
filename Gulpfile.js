@@ -6,6 +6,7 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var streamify = require('gulp-streamify');
 var uglify = require('gulp-uglify');
+var mincss = require('gulp-minify-css');
 var rm = require('gulp-rimraf');
 var sequence = require('run-sequence');
 
@@ -40,6 +41,9 @@ gulp.task('js', ['ls'], function() {
 });
 
 gulp.task('css', function() {
+  return gulp.src('./build/app.css')
+    .pipe(mincss())
+    .pipe(gulp.dest('./build/'));
 });
 
 gulp.task('clean', function() {
