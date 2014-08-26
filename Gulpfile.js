@@ -4,7 +4,8 @@ var gulp = require('gulp');
 var live = require('gulp-livescript');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
-var min = require('gulp-uglify');
+var streamify = require('gulp-streamify');
+var uglify = require('gulp-uglify');
 var rm = require('gulp-rimraf');
 var sequence = require('run-sequence');
 
@@ -34,7 +35,7 @@ gulp.task('js', ['ls'], function() {
   var bundleStream = browserify('./build/main.js').bundle();
 
   return bundleStream.pipe(source('app.js'))
-  //.pipe(min())
+    .pipe(streamify(uglify()))
     .pipe(gulp.dest('./build'));
 });
 

@@ -21,6 +21,7 @@
   , "gulp-livescript": "^1.0.3"
   , "gulp-uglify": "^0.3.1"
   , "gulp-rimraf": "^0.1.0"
+  , "gulp-streamify": "^0.0.5"
   , "browserify": "^5.10.1"
   , "run-sequence": "^0.3.6"
   , "vinyl-source-stream": "^0.1.1"
