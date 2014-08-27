@@ -2,6 +2,8 @@
 
 var gulp = require('gulp');
 
+var save = function() { return gulp.dest('./build'); };
+
 gulp.task('default', function(cb) {
   var sequence = require('run-sequence');
 
@@ -12,7 +14,7 @@ gulp.task('default', function(cb) {
 
 gulp.task('copy', function() {
   return gulp.src('./src/**/*')
-    .pipe(gulp.dest('./build'));
+    .pipe(save());
 });
 
 gulp.task('slm', function() {
@@ -20,7 +22,7 @@ gulp.task('slm', function() {
 
   return gulp.src('./build/**/*.slm')
     .pipe(slm())
-    .pipe(gulp.dest('./build'));
+    .pipe(save());
 });
 
 gulp.task('ls', function() {
@@ -28,7 +30,7 @@ gulp.task('ls', function() {
 
   return gulp.src('./build/**/*.ls')
     .pipe(live())
-    .pipe(gulp.dest('./build'));
+    .pipe(save());
 });
 
 gulp.task('stylus', function() {
@@ -36,7 +38,7 @@ gulp.task('stylus', function() {
 
   return gulp.src('./build/**/*.styl')
     .pipe(stylus())
-    .pipe(gulp.dest('./build'));
+    .pipe(save());
 });
 
 gulp.task('html', ['slm']);
@@ -51,7 +53,7 @@ gulp.task('js', ['ls'], function() {
 
   return bundleStream.pipe(source('app.js'))
     .pipe(streamify(min()))
-    .pipe(gulp.dest('./build'));
+    .pipe(save());
 });
 
 gulp.task('css', ['stylus'], function() {
@@ -61,7 +63,7 @@ gulp.task('css', ['stylus'], function() {
   return gulp.src('./build/index.css')
     .pipe(mv({ basename: "app" }))
     .pipe(min())
-    .pipe(gulp.dest('./build/'));
+    .pipe(save());
 });
 
 gulp.task('clean', function() {
