@@ -45,14 +45,12 @@ gulp.task('html', ['slm']);
 
 gulp.task('js', ['ls'], function() {
   var browserify = require('browserify');
-  var source = require('vinyl-source-stream');
-  var min = require('gulp-uglify');
-  var streamify = require('gulp-streamify');
+  var mv = require('vinyl-source-stream');
+  var min = function() { return require('gulp-streamify')(require('gulp-uglify')()); };
 
-  var bundleStream = browserify('./build/index.js').bundle();
-
-  return bundleStream.pipe(source('app.js'))
-    .pipe(streamify(min()))
+  return browserify('./build/index.js').bundle()
+    .pipe(mv('app.js'))
+    .pipe(min())
     .pipe(save());
 });
 
@@ -61,7 +59,7 @@ gulp.task('css', ['stylus'], function() {
   var min = require('gulp-minify-css');
 
   return gulp.src('./build/index.css')
-    .pipe(mv({ basename: "app" }))
+    .pipe(mv('app.css'))
     .pipe(min())
     .pipe(save());
 });
