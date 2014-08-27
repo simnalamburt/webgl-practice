@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var slm = require('gulp-slm');
 var live = require('gulp-livescript');
 var stylus = require('gulp-stylus');
 var browserify = require('browserify');
@@ -23,8 +24,9 @@ gulp.task('copy', function() {
     .pipe(gulp.dest('./build'));
 });
 
-gulp.task('html', function() {
-  return gulp.src('./build/**/*.html')
+gulp.task('slm', function() {
+  return gulp.src('./build/**/*.slm')
+    .pipe(slm())
     .pipe(gulp.dest('./build'));
 });
 
@@ -39,6 +41,8 @@ gulp.task('stylus', function() {
     .pipe(stylus())
     .pipe(gulp.dest('./build'));
 });
+
+gulp.task('html', ['slm']);
 
 gulp.task('js', ['ls'], function() {
   var bundleStream = browserify('./build/index.js').bundle();
