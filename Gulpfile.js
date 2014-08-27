@@ -1,19 +1,10 @@
 'use strict';
 
 var gulp = require('gulp');
-var slm = require('gulp-slm');
-var live = require('gulp-livescript');
-var stylus = require('gulp-stylus');
-var browserify = require('browserify');
-var source = require('vinyl-source-stream');
-var streamify = require('gulp-streamify');
-var uglify = require('gulp-uglify');
-var mincss = require('gulp-minify-css');
-var mv = require('gulp-rename');
-var rm = require('gulp-rimraf');
-var sequence = require('run-sequence');
 
 gulp.task('default', function(cb) {
+  var sequence = require('run-sequence');
+
   sequence('copy',
           ['html', 'js', 'css'],
           cb);
@@ -25,18 +16,24 @@ gulp.task('copy', function() {
 });
 
 gulp.task('slm', function() {
+  var slm = require('gulp-slm');
+
   return gulp.src('./build/**/*.slm')
     .pipe(slm())
     .pipe(gulp.dest('./build'));
 });
 
 gulp.task('ls', function() {
+  var live = require('gulp-livescript');
+
   return gulp.src('./build/**/*.ls')
     .pipe(live())
     .pipe(gulp.dest('./build'));
 });
 
 gulp.task('stylus', function() {
+  var stylus = require('gulp-stylus');
+
   return gulp.src('./build/**/*.styl')
     .pipe(stylus())
     .pipe(gulp.dest('./build'));
@@ -45,21 +42,31 @@ gulp.task('stylus', function() {
 gulp.task('html', ['slm']);
 
 gulp.task('js', ['ls'], function() {
+  var browserify = require('browserify');
+  var source = require('vinyl-source-stream');
+  var min = require('gulp-uglify');
+  var streamify = require('gulp-streamify');
+
   var bundleStream = browserify('./build/index.js').bundle();
 
   return bundleStream.pipe(source('app.js'))
-    .pipe(streamify(uglify()))
+    .pipe(streamify(min()))
     .pipe(gulp.dest('./build'));
 });
 
 gulp.task('css', ['stylus'], function() {
+  var mv = require('gulp-rename');
+  var min = require('gulp-minify-css');
+
   return gulp.src('./build/index.css')
     .pipe(mv({ basename: "app" }))
-    .pipe(mincss())
+    .pipe(min())
     .pipe(gulp.dest('./build/'));
 });
 
 gulp.task('clean', function() {
+  var rm = require('gulp-rimraf');
+
   return gulp.src('./build', { read: false })
     .pipe(rm());
 });
