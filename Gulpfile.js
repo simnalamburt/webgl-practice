@@ -41,7 +41,7 @@ gulp.task('stylus', function() {
 });
 
 gulp.task('js', ['ls'], function() {
-  var bundleStream = browserify('./build/main.js').bundle();
+  var bundleStream = browserify('./build/index.js').bundle();
 
   return bundleStream.pipe(source('app.js'))
     .pipe(streamify(uglify()))
@@ -49,7 +49,7 @@ gulp.task('js', ['ls'], function() {
 });
 
 gulp.task('css', ['stylus'], function() {
-  return gulp.src('./build/main.css')
+  return gulp.src('./build/index.css')
     .pipe(mv({ basename: "app" }))
     .pipe(mincss())
     .pipe(gulp.dest('./build/'));
