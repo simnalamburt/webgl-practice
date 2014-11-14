@@ -1,7 +1,7 @@
-WebGL Tutorial
+My WebGL Practice
 ========
 
-My WebGL practice
+![](img/sample.png)
 
 ### Installation
 
