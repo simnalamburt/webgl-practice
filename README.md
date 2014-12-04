@@ -1,9 +1,14 @@
 My WebGL Practice
 ========
 
-![](img/sample.png)
+![](example/screenshot.png)
 
-### Installation
+#### Prerequisite
+
+*   [node.js](http://nodejs.org/)
+*   [gulp.js](http://gulpjs.com/)
+
+#### Installation
 
 1.  Clone the sources from git
 
@@ -24,8 +29,3 @@ My WebGL Practice
     gulp
     open build/index.html
     ```
-
-### Requirements
-
-* [node.js](http://nodejs.org/)
-* [gulp.js](http://gulpjs.com/)
