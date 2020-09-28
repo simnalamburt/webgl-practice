@@ -1,6 +1,6 @@
 var sylvester, Matrix, $V, makePerspective, gl;
-sylvester = require("./lib/sylvester.js");
-require("./lib/sylvester-utils.js");
+sylvester = require("sylvester");
+require("sylvester-utils");
 Matrix = sylvester.Matrix;
 $V = sylvester.Vector.create;
 makePerspective = sylvester.makePerspective;
