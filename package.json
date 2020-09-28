@@ -13,5 +13,9 @@
   "browser": {
     "sylvester": "./lib/sylvester.js",
     "sylvester-utils": "./lib/sylvester-utils.js"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
   }
 }
