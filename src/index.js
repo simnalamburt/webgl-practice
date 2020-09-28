@@ -1,125 +1,109 @@
-var sylvester, Matrix, $V, makePerspective, gl
-sylvester = require('sylvester')
-require('sylvester-utils')
-Matrix = sylvester.Matrix
-$V = sylvester.Vector.create
-makePerspective = sylvester.makePerspective
-gl = (function (canvas) {
-  var e
-  try {
-    return canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
-  } catch (e$) {
-    e = e$
-    throw Error('unimplemented')
-  }
-})(document.getElementById('screen'))
-;(function (it) {
-  return it.call(gl)
-})(function () {
-  var flag,
-    makeShader,
-    vs,
-    fs,
-    program,
-    makeAttr,
-    vertexPositionAttribute,
-    vertexColorAttribute,
-    makeBuffer,
-    vb,
-    colorb,
-    this$ = this
-  flag = {
-    resized: true,
-  }
-  window.addEventListener('resize', function () {
-    return (flag.resized = true)
-  })
-  this.clearColor(0.0, 0.0, 0.0, 1.0)
-  this.clearDepth(1.0)
-  this.enable(this.DEPTH_TEST)
-  this.depthFunc(this.LEQUAL)
-  makeShader = function (shader, code) {
-    this$.shaderSource(shader, code)
-    this$.compileShader(shader)
-    if (!this$.getShaderParameter(shader, this$.COMPILE_STATUS)) {
-      throw Error('unimplemented')
-    }
-    return shader
-  }
-  vs = makeShader(
-    this.createShader(this.VERTEX_SHADER),
-    'attribute vec3 aVertexPosition;\nattribute vec4 aVertexColor;\n\nuniform mat4 uMVMatrix;\nuniform mat4 uPMatrix;\n\nvarying lowp vec4 vColor;\n\nvoid main(void) {\n  gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);\n  vColor = aVertexColor;\n}'
-  )
-  fs = makeShader(
-    this.createShader(this.FRAGMENT_SHADER),
-    'varying lowp vec4 vColor;\n\nvoid main(void) {\n  gl_FragColor = vColor;\n}'
-  )
-  program = this.createProgram()
-  this.attachShader(program, vs)
-  this.attachShader(program, fs)
-  this.linkProgram(program)
-  if (!this.getProgramParameter(program, this.LINK_STATUS)) {
-    throw Error('unimplemented')
-  }
-  this.useProgram(program)
-  makeAttr = function (name) {
-    var attr
-    attr = this$.getAttribLocation(program, name)
-    this$.enableVertexAttribArray(attr)
-    return attr
-  }
-  vertexPositionAttribute = makeAttr('aVertexPosition')
-  vertexColorAttribute = makeAttr('aVertexColor')
-  makeBuffer = function (data) {
-    var ret
-    ret = this$.createBuffer()
-    this$.bindBuffer(this$.ARRAY_BUFFER, ret)
-    this$.bufferData(
-      this$.ARRAY_BUFFER,
-      new Float32Array(data),
-      this$.STATIC_DRAW
-    )
-    return ret
-  }
-  vb = makeBuffer([+1, +1, +0, -1, +1, +0, +1, -1, +0, -1, -1, +0])
-  colorb = makeBuffer([1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1])
-  return (function (foo) {
-    return setInterval(foo, 15)
-  })(function () {
-    var mvMatrix, mvUniform, pMatrix, pUniform
-    mvMatrix = Matrix.Translation($V([0, 0, -6])).ensure4x4()
-    mvUniform = this$.getUniformLocation(program, 'uMVMatrix')
-    this$.uniformMatrix4fv(
-      mvUniform,
-      false,
-      new Float32Array(mvMatrix.flatten())
-    )
-    pMatrix = makePerspective(45, 1, 0.1, 100.0)
-    pUniform = this$.getUniformLocation(program, 'uPMatrix')
-    this$.uniformMatrix4fv(pUniform, false, new Float32Array(pMatrix.flatten()))
-    this$.bindBuffer(this$.ARRAY_BUFFER, vb)
-    this$.vertexAttribPointer(
-      vertexPositionAttribute,
-      3,
-      this$.FLOAT,
-      false,
-      0,
-      0
-    )
-    this$.bindBuffer(this$.ARRAY_BUFFER, colorb)
-    this$.vertexAttribPointer(vertexColorAttribute, 4, this$.FLOAT, false, 0, 0)
-    this$.clear(this$.COLOR_BUFFER_BIT | this$.DEPTH_BUFFER_BIT)
-    this$.drawArrays(this$.TRIANGLE_STRIP, 0, 4)
-    if (flag.resized) {
-      return function (c) {
-        if (c.width !== c.clientWidth) {
-          c.width = c.clientWidth
-        }
-        if (c.height !== c.clientHeight) {
-          c.height = c.clientHeight
-        }
-        return this.viewport(0, 0, c.width, c.height)
-      }.call(this$, this$.canvas)
-    }
-  })
+import { Matrix, Vector, makePerspective } from 'sylvester'
+import 'sylvester-utils'
+
+const $V = Vector.create
+const canvas = document.getElementById('screen')
+const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+
+let resized = true
+
+window.addEventListener('resize', () => {
+  resized = true
 })
+gl.clearColor(0.0, 0.0, 0.0, 1.0)
+gl.clearDepth(1.0)
+gl.enable(gl.DEPTH_TEST)
+gl.depthFunc(gl.LEQUAL)
+
+function makeShader(shader, code) {
+  gl.shaderSource(shader, code)
+  gl.compileShader(shader)
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    throw Error('unimplemented')
+  }
+  return shader
+}
+
+const vs = makeShader(
+  gl.createShader(gl.VERTEX_SHADER),
+  `
+    attribute vec3 aVertexPosition;
+    attribute vec4 aVertexColor;
+
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+
+    varying lowp vec4 vColor;
+
+    void main(void) {
+      gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+      vColor = aVertexColor;
+    }
+  `
+)
+
+const fs = makeShader(
+  gl.createShader(gl.FRAGMENT_SHADER),
+  `
+    varying lowp vec4 vColor;
+
+    void main(void) {
+      gl_FragColor = vColor;
+    }
+  `
+)
+
+const program = gl.createProgram()
+gl.attachShader(program, vs)
+gl.attachShader(program, fs)
+gl.linkProgram(program)
+if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+  throw Error('unimplemented')
+}
+gl.useProgram(program)
+
+function makeAttr(name) {
+  const attr = gl.getAttribLocation(program, name)
+  gl.enableVertexAttribArray(attr)
+  return attr
+}
+const vertexPositionAttribute = makeAttr('aVertexPosition')
+const vertexColorAttribute = makeAttr('aVertexColor')
+
+function makeBuffer(data) {
+  const ret = gl.createBuffer()
+  gl.bindBuffer(gl.ARRAY_BUFFER, ret)
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW)
+  return ret
+}
+
+const vb = makeBuffer([+1, +1, +0, -1, +1, +0, +1, -1, +0, -1, -1, +0])
+const colorb = makeBuffer([1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1])
+setInterval(render, 15)
+
+function render() {
+  const mvMatrix = Matrix.Translation($V([0, 0, -6])).ensure4x4()
+  const mvUniform = gl.getUniformLocation(program, 'uMVMatrix')
+  gl.uniformMatrix4fv(mvUniform, false, new Float32Array(mvMatrix.flatten()))
+
+  const pMatrix = makePerspective(45, 1, 0.1, 100.0)
+  const pUniform = gl.getUniformLocation(program, 'uPMatrix')
+  gl.uniformMatrix4fv(pUniform, false, new Float32Array(pMatrix.flatten()))
+
+  gl.bindBuffer(gl.ARRAY_BUFFER, vb)
+  gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0)
+  gl.bindBuffer(gl.ARRAY_BUFFER, colorb)
+  gl.vertexAttribPointer(vertexColorAttribute, 4, gl.FLOAT, false, 0, 0)
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
+
+  if (resized) {
+    if (gl.canvas.width !== gl.canvas.clientWidth) {
+      gl.canvas.width = gl.canvas.clientWidth
+    }
+    if (gl.canvas.height !== gl.canvas.clientHeight) {
+      gl.canvas.height = gl.canvas.clientHeight
+    }
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
+  }
+}
