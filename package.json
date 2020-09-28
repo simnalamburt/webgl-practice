@@ -1,11 +1,14 @@
 {
   "scripts": {
     "build": "parcel build src/index.html",
-    "dev": "parcel serve src/index.html"
+    "dev": "parcel serve src/index.html",
+    "test": "prettier --check .",
+    "fmt": "prettier --write ."
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
-    "parcel": "^2.0.0-nightly.410"
+    "parcel": "^2.0.0-nightly.410",
+    "prettier": "^2.1.2"
   },
   "browser": {
     "sylvester": "./lib/sylvester.js",

@@ -1,0 +1,15 @@
+# Yarn 2
+/.yarnrc.yml
+/.yarn/
+/.pnp.*
+/.vim/
+
+# Markdowns
+*.md
+
+# Parcel 2
+/.parcel-cache/
+/dist/
+
+# vendered library
+/lib/
