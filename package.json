@@ -6,9 +6,9 @@
     "fmt": "prettier --write ."
   },
   "devDependencies": {
-    "@babel/core": "^7.15.8",
-    "parcel": "^2.0.0",
-    "prettier": "^2.4.1"
+    "@babel/core": "^7.26.10",
+    "parcel": "^2.13.3",
+    "prettier": "^2.8.8"
   },
   "browser": {
     "sylvester": "./lib/sylvester.js",
@@ -17,5 +17,6 @@
   "prettier": {
     "semi": false,
     "singleQuote": true
-  }
+  },
+  "packageManager": "pnpm@10.6.2"
 }

@@ -2,10 +2,10 @@ My WebGL Practice
 ========
 
 ```bash
-yarn
+pnpm i
 
-yarn build
-yarn dev
+pnpm build
+pnpm dev
 ```
 
 ![Screenshot]

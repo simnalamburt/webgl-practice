@@ -1,8 +1,4 @@
-# Yarn 2
-/.yarnrc.yml
-/.yarn/
-/.pnp.*
-/.vim/
+/pnpm-lock.yaml
 
 # Markdowns
 *.md
