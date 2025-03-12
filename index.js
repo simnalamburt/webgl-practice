@@ -1,5 +1,7 @@
-import { Matrix, Vector, makePerspective } from 'sylvester'
+import Sylvester from 'sylvester'
 import 'sylvester-utils'
+
+const { Matrix, Vector, makePerspective } = Sylvester
 
 const $V = Vector.create
 const canvas = document.getElementById('screen')

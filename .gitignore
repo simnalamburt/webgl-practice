@@ -1,5 +1,2 @@
 /node_modules
-
-# Parcel 2
 /dist/
-/.parcel-cache/

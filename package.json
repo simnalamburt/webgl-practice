@@ -1,13 +1,12 @@
 {
   "scripts": {
-    "build": "parcel build --public-url ./ src/index.html",
-    "dev": "parcel serve src/index.html",
+    "dev": "vite",
+    "build": "vite build",
     "test": "prettier --check .",
     "fmt": "prettier --write ."
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
-    "parcel": "^2.13.3",
     "prettier": "^3.5.3"
   },
   "browser": {
@@ -18,5 +17,8 @@
     "semi": false,
     "singleQuote": true
   },
-  "packageManager": "pnpm@10.6.2"
+  "packageManager": "pnpm@10.6.2",
+  "dependencies": {
+    "vite": "^6.2.1"
+  }
 }
