@@ -39,7 +39,7 @@ const vs = makeShader(
       gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
       vColor = aVertexColor;
     }
-  `
+  `,
 )
 
 const fs = makeShader(
@@ -50,7 +50,7 @@ const fs = makeShader(
     void main(void) {
       gl_FragColor = vColor;
     }
-  `
+  `,
 )
 
 const program = gl.createProgram()
