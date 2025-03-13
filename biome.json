@@ -1,0 +1,14 @@
+{
+  "files": {
+    "ignore": ["dist", "lib"]
+  },
+  "formatter": {
+    "indentStyle": "space"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "asNeeded"
+    }
+  }
+}
