@@ -1,4 +1,4 @@
-My WebGL Practice
+webgl2-practice
 ========
 
 ```bash
@@ -13,10 +13,10 @@ pnpm dev
 &nbsp;
 
 --------
-*webgl-practice* is primarily distributed under the terms of both the [Apache
+*webgl2-practice* is primarily distributed under the terms of both the [Apache
 License (Version 2.0)] and the [MIT license]. See [COPYRIGHT] for details.
 
-[Screenshot]: https://raw.githubusercontent.com/simnalamburt/i/master/webgl-practice/screenshot.jpg
+[Screenshot]: https://raw.githubusercontent.com/simnalamburt/i/master/webgl2-practice/screenshot.jpg
 
 [Apache License (Version 2.0)]: LICENSE-APACHE
 [MIT license]: LICENSE-MIT
