@@ -2,12 +2,13 @@
   "scripts": {
     "dev": "rsbuild dev",
     "build": "rsbuild build",
-    "test": "biome check",
+    "test": "tsc && biome check",
     "fix": "biome check --fix"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@rsbuild/core": "^1.2.19"
+    "@rsbuild/core": "^1.2.19",
+    "typescript": "^5.8.2"
   },
   "browser": {
     "sylvester": "./lib/sylvester.js",
