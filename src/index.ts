@@ -1,11 +1,4 @@
-import Sylvester from 'sylvester'
-import 'sylvester-utils'
-
-const { Matrix, Vector, makePerspective } = Sylvester
-
-function bail(msg: string): never {
-  throw Error(msg)
-}
+import { bail, matrixPerspective, matrixTranslation } from './utils'
 
 //
 // Resize detection
@@ -87,13 +80,13 @@ const vb = makeBuffer(gl, [+1, +1, +0, -1, +1, +0, +1, -1, +0, -1, -1, +0])
 const colorb = makeBuffer(gl, [1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1])
 
 setInterval(() => {
-  const mvMatrix = Matrix.Translation(Vector.create([0, 0, -6])).ensure4x4()
-  const mvUniform = gl.getUniformLocation(program, 'uMV') ?? bail('No uMV')
-  gl.uniformMatrix4fv(mvUniform, false, new Float32Array(mvMatrix.flatten()))
+  const MV = matrixTranslation(0, 0, -6)
+  const uMV = gl.getUniformLocation(program, 'uMV') ?? bail('No uMV')
+  gl.uniformMatrix4fv(uMV, false, MV)
 
-  const pMatrix = makePerspective(45, 1, 0.1, 100.0)
-  const pUniform = gl.getUniformLocation(program, 'uP') ?? bail('No uP')
-  gl.uniformMatrix4fv(pUniform, false, new Float32Array(pMatrix.flatten()))
+  const P = matrixPerspective(45, 1, 0.1, 100.0)
+  const uP = gl.getUniformLocation(program, 'uP') ?? bail('No uP')
+  gl.uniformMatrix4fv(uP, false, P)
 
   gl.bindBuffer(gl.ARRAY_BUFFER, vb)
   gl.vertexAttribPointer(aVertexPosition, 3, gl.FLOAT, false, 0, 0)

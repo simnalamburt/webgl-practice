@@ -10,9 +10,5 @@
     "@rsbuild/core": "^1.2.19",
     "typescript": "^5.8.2"
   },
-  "browser": {
-    "sylvester": "./lib/sylvester.js",
-    "sylvester-utils": "./lib/sylvester-utils.js"
-  },
   "packageManager": "pnpm@10.6.2"
 }
